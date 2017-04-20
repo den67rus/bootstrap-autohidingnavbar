@@ -22,7 +22,7 @@
         showOnUpscroll: true,
         showOnBottom: true,
         hideOffset: 'auto', // "auto" means the navbar height
-        deactivateOffset: 'auto', // "auto" according to the value of top
+        staticMenuOffset: 'auto', // "auto" according to the value of top
         animationDuration: 200,
         classHidden: 'navbar-hidden',
         classStatic: 'navbar-static-top',
@@ -81,7 +81,7 @@
 
     if(scrollTop === 0 && _staticMenuOn) {
       if(!_staticMenu) {
-          deactivateHandler(autoHidingNavbar, false);
+          staticHandler(autoHidingNavbar, false);
       }
       return;
     }
@@ -89,7 +89,7 @@
     if (scrollDelta < 0) {
       if (scrollTop <= _staticMenuOffset && _staticMenuOn) {
         if(!_staticMenu) {
-            deactivateHandler(autoHidingNavbar, false);
+            staticHandler(autoHidingNavbar, false);
         }
         return;
       }
@@ -106,11 +106,11 @@
       if (_staticMenuOn) {
         if (scrollTop >= (_staticMenuOffset + _hideOffset)) {
           if (_staticMenu) {
-              deactivateHandler(autoHidingNavbar, true);
+              staticHandler(autoHidingNavbar, true);
           }
         } else {
           if (!_staticMenu) {
-              deactivateHandler(autoHidingNavbar, false);
+              staticHandler(autoHidingNavbar, false);
           }
           return;
         }
@@ -140,8 +140,8 @@
     detectState(autoHidingNavbar);
   }
 
-  function deactivateHandler(autoHidingNavbar, deactivate) {
-    if (deactivate) {
+  function staticHandler(autoHidingNavbar, type) {
+    if (type) {
       autoHidingNavbar.element.removeClass(_classStatic);
       autoHidingNavbar.element.addClass(_classFixed);
       autoHidingNavbar.element.css('top', '-' + _hideOffset + 'px');
@@ -199,12 +199,12 @@
       this.setClassHidden(this.settings.classHidden);
       this.setClassStatic(this.settings.classStatic);
       this.setClassFixed(this.settings.classFixed);
-      this.setDeactivateOffset(this.settings.deactivateOffset);
+      this.setStaticMenuOffset(this.settings.staticMenuOffset);
       this.setAnimationDuration(this.settings.animationDuration);
 
       _hideOffset = this.settings.hideOffset === 'auto' ? parseInt(this.element.css('height'), 10) : this.settings.hideOffset;
       _staticMenuOn = this.settings.staticMenu;
-      _staticMenuOffset = this.settings.deactivateOffset === 'auto' ? parseInt(this.element.offset().top, 10) : this.settings.deactivateOffset;
+      _staticMenuOffset = this.settings.staticMenuOffset === 'auto' ? parseInt(this.element.offset().top, 10) : this.settings.staticMenuOffset;
       _classHidden = this.settings.classHidden;
       _classStatic = this.settings.classStatic;
       _classFixed = this.settings.classFixed;
@@ -232,8 +232,8 @@
       this.settings.hideOffset = value;
       return this.element;
     },
-    setDeactivateOffset: function(value) {
-      this.settings.deactivateOffset = value;
+    setStaticMenuOffset: function(value) {
+      this.settings.staticMenuOffset = value;
       return this.element;
     },
     setAnimationDuration: function(value) {
@@ -258,6 +258,14 @@
     },
     hide: function() {
       hide(this);
+      return this.element;
+    },
+    fixed: function() {
+      staticHandler(this, true);
+      return this.element;
+    },
+    static: function() {
+      staticHandler(this, false);
       return this.element;
     },
     destroy: function() {
