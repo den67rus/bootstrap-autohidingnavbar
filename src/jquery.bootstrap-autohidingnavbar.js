@@ -145,12 +145,16 @@
       autoHidingNavbar.element.removeClass(_classStatic);
       autoHidingNavbar.element.addClass(_classFixed);
       autoHidingNavbar.element.css('top', '-' + _hideOffset + 'px');
-        _staticMenu = false;
+      _staticMenu = false;
+
+      autoHidingNavbar.element.trigger('fixed.autoHidingNavbar');
     } else {
       autoHidingNavbar.element.removeClass(_classFixed);
       autoHidingNavbar.element.addClass(_classStatic);
       autoHidingNavbar.element.css('top', 0);
-        _staticMenu = true;
+      _staticMenu = true;
+
+      autoHidingNavbar.element.trigger('static.autoHidingNavbar');
     }
   }
 
