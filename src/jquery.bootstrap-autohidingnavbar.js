@@ -9,15 +9,16 @@
       _previousScrollTop = null,
       _windowHeight = $window.height(),
       _visible = true,
-      _deactivate = true,
       _hideOffset,
-      _deactivateOffset,
+      _staticMenuOn,
+      _staticMenu = true,
+      _staticMenuOffset,
       _classHidden,
       _classStatic,
       _classFixed,
       defaults = {
         disableAutohide: false,
-        notFixedMenu: false,
+        staticMenu: false,
         showOnUpscroll: true,
         showOnBottom: true,
         hideOffset: 'auto', // "auto" means the navbar height
@@ -78,16 +79,16 @@
 
     _previousScrollTop = scrollTop;
 
-    if(scrollTop === 0 && autoHidingNavbar.settings.notFixedMenu) {
-      if(!_deactivate) {
+    if(scrollTop === 0 && _staticMenuOn) {
+      if(!_staticMenu) {
           deactivateHandler(autoHidingNavbar, false);
       }
       return;
     }
 
     if (scrollDelta < 0) {
-      if (scrollTop <= _deactivateOffset && autoHidingNavbar.settings.notFixedMenu) {
-        if(!_deactivate) {
+      if (scrollTop <= _staticMenuOffset && _staticMenuOn) {
+        if(!_staticMenu) {
             deactivateHandler(autoHidingNavbar, false);
         }
         return;
@@ -102,13 +103,13 @@
       }
     }
     else if (scrollDelta > 0) {
-      if (autoHidingNavbar.settings.notFixedMenu) {
-        if (scrollTop >= (_deactivateOffset + _hideOffset)) {
-          if (_deactivate) {
+      if (_staticMenuOn) {
+        if (scrollTop >= (_staticMenuOffset + _hideOffset)) {
+          if (_staticMenu) {
               deactivateHandler(autoHidingNavbar, true);
           }
         } else {
-          if (!_deactivate) {
+          if (!_staticMenu) {
               deactivateHandler(autoHidingNavbar, false);
           }
           return;
@@ -144,12 +145,12 @@
       autoHidingNavbar.element.removeClass(_classStatic);
       autoHidingNavbar.element.addClass(_classFixed);
       autoHidingNavbar.element.css('top', '-' + _hideOffset + 'px');
-      _deactivate = false;
+        _staticMenu = false;
     } else {
       autoHidingNavbar.element.removeClass(_classFixed);
       autoHidingNavbar.element.addClass(_classStatic);
       autoHidingNavbar.element.css('top', 0);
-      _deactivate = true;
+        _staticMenu = true;
     }
   }
 
@@ -187,7 +188,7 @@
       };
 
       this.setDisableAutohide(this.settings.disableAutohide);
-      this.setNotFixedMenu(this.settings.notFixedMenu);
+      this.setStaticMenu(this.settings.staticMenu);
       this.setShowOnUpscroll(this.settings.showOnUpscroll);
       this.setShowOnBottom(this.settings.showOnBottom);
       this.setHideOffset(this.settings.hideOffset);
@@ -198,7 +199,8 @@
       this.setAnimationDuration(this.settings.animationDuration);
 
       _hideOffset = this.settings.hideOffset === 'auto' ? parseInt(this.element.css('height'), 10) : this.settings.hideOffset;
-      _deactivateOffset = this.settings.deactivateOffset === 'auto' ? parseInt(this.element.offset().top, 10) : this.settings.deactivateOffset;
+      _staticMenuOn = this.settings.staticMenu;
+      _staticMenuOffset = this.settings.deactivateOffset === 'auto' ? parseInt(this.element.offset().top, 10) : this.settings.deactivateOffset;
       _classHidden = this.settings.classHidden;
       _classStatic = this.settings.classStatic;
       _classFixed = this.settings.classFixed;
@@ -210,8 +212,8 @@
       this.settings.disableAutohide = value;
       return this.element;
     },
-    setNotFixedMenu: function(value) {
-      this.settings.notFixedMenu = value;
+    setStaticMenu: function(value) {
+      this.settings.staticMenu = value;
       return this.element;
     },
     setShowOnUpscroll: function(value) {
