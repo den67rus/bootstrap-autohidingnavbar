@@ -47,7 +47,6 @@ When calling `$(".navbar-fixed-top").autoHidingNavbar()` you can pass a paramete
 - `showOnBottom`, defaults to `'true'`, the navbar shows up when scroll reaches the page's end.
 - `hideOffset`, defaults to `'auto'`, hides the navbar after scrolling that much pixel. Auto means the navbar's height.
 - `staticMenuOffset`, defaults to `'auto'`, fixes the navbar after scrolling that much pixel. Auto means an indent from the beginning of the page to navbar's.
-- `animationDuration`, defaults to `'200'`, is the duration of the show and hide animations in milliseconds.
 - `navbarOffset`, defaults to `'0'`, the navbar doesn't hide that many pixels from the bottom. 
 - `classHidden`, defaults to `'navbar-hidden'`, custom class to be set when hiding the navbar.
 - `classStatic`, defaults to `'navbar-static-top'`, custom class to be set when static the navbar.
@@ -101,7 +100,6 @@ Here are the available methods:
 - `setShowOnBottom(value)` to change the `showOnBottom` parameter.
 - `setHideOffset(value)` to change the `hideOffset` parameter.
 - `setStaticMenuOffset(value)` to change the `staticMenuOffset` parameter.
-- `setAnimationDuration(value)` to change the `animationDuration` parameter.
 - `setClassHidden(value)` to change the `classHidden` parameter.
 - `setClassStatic(value)` to change the `classStatic` parameter.
 - `setClassFixed(value)` to change the `classFixed` parameter.

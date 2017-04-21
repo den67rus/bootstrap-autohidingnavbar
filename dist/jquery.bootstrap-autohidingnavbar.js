@@ -1,5 +1,5 @@
 /*
- *  Bootstrap Auto-Hiding Navbar - v1.1.0
+ *  Bootstrap Auto-Hiding Navbar - v1.1.1
  *  An extension for Bootstrap's fixed navbar which hides the navbar while the page is scrolling downwards and shows it the other way. The plugin is able to show/hide the navbar programmatically as well.
  *  http://www.virtuosoft.eu/code/bootstrap-autohidingnavbar/
  *
@@ -31,7 +31,6 @@
         showOnBottom: true,
         hideOffset: 'auto', // "auto" means the navbar height
         staticMenuOffset: 'auto', // "auto" according to the value of top
-        animationDuration: 200,
         classHidden: 'navbar-hidden',
         classStatic: 'navbar-static-top',
         classFixed: 'navbar-fixed-top',
@@ -51,12 +50,7 @@
       return;
     }
 
-    autoHidingNavbar.element.addClass(_classHidden).animate({
-      top: -1 * parseInt(autoHidingNavbar.element.css('height'), 10) + autoHidingNavbar.settings.navbarOffset
-    }, {
-      queue: false,
-      duration: autoHidingNavbar.settings.animationDuration
-    });
+    autoHidingNavbar.element.addClass(_classHidden);
 
     $('.dropdown.open .dropdown-toggle', autoHidingNavbar.element).dropdown('toggle');
 
@@ -70,12 +64,7 @@
       return;
     }
 
-    autoHidingNavbar.element.removeClass(_classHidden).animate({
-      top: 0
-    }, {
-      queue: false,
-      duration: autoHidingNavbar.settings.animationDuration
-    });
+    autoHidingNavbar.element.removeClass(_classHidden);
     _visible = true;
 
     autoHidingNavbar.element.trigger('show.autoHidingNavbar');
@@ -152,14 +141,12 @@
     if (type) {
       autoHidingNavbar.element.removeClass(_classStatic);
       autoHidingNavbar.element.addClass(_classFixed);
-      autoHidingNavbar.element.css('top', '-' + _hideOffset + 'px');
       _staticMenu = false;
 
       autoHidingNavbar.element.trigger('fixed.autoHidingNavbar');
     } else {
       autoHidingNavbar.element.removeClass(_classFixed);
       autoHidingNavbar.element.addClass(_classStatic);
-      autoHidingNavbar.element.css('top', 0);
       _staticMenu = true;
 
       autoHidingNavbar.element.trigger('static.autoHidingNavbar');
@@ -208,7 +195,6 @@
       this.setClassStatic(this.settings.classStatic);
       this.setClassFixed(this.settings.classFixed);
       this.setStaticMenuOffset(this.settings.staticMenuOffset);
-      this.setAnimationDuration(this.settings.animationDuration);
 
       _hideOffset = this.settings.hideOffset === 'auto' ? parseInt(this.element.css('height'), 10) : this.settings.hideOffset;
       _staticMenuOn = this.settings.staticMenu;
@@ -242,10 +228,6 @@
     },
     setStaticMenuOffset: function(value) {
       this.settings.staticMenuOffset = value;
-      return this.element;
-    },
-    setAnimationDuration: function(value) {
-      this.settings.animationDuration = value;
       return this.element;
     },
     setClassHidden: function(value) {
